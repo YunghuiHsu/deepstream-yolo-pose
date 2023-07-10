@@ -34,13 +34,13 @@
 * [NVIDIA Driver 525.85.12 (Data center / Tesla series) / 525.105.17 (TITAN, GeForce RTX / GTX series and RTX / Quadro series)](https://www.nvidia.com.br/Download/index.aspx)
 * [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-getting-started)
 * [GStreamer 1.16.3](https://gstreamer.freedesktop.org/)
-* [(DeepStream-Yolo)](https://github.com/marcoslucianops/DeepStream-Yolo)
+* [DeepStream-Yol)](https://github.com/marcoslucianops/DeepStream-Yolo)
   
 #### DeepStream 6.2 on Jetson platform
 - [JetPack 5.1.1 / 5.1](https://developer.nvidia.com/embedded/jetpack)
 - [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-sdk)
   - Download and install from https://developer.nvidia.com/deepstream-download
-- [(DeepStream-Yolo)](https://github.com/marcoslucianops/DeepStream-Yolo)
+- [DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
 
 
 ### Deepstream Python Biding
