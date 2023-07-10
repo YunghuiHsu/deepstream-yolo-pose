@@ -64,67 +64,100 @@
     sudo apt-get install gobject-introspection gir1.2-gst-rtsp-server-1.0
     ```
 ## Prepare YOLO-Pose Model
+
+  <div style="text-align: center;">
+    <figure>
+          <img  src="imgs/YOLO-pose_architecture_based_on_YOLOv5.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="600">
+          <figcaption> <br>YOLO-pose architecture <br> </figcaption>
+    </figure>
+  </div>
+
+  source : [YOLO-Pose: Enhancing YOLO for Multi Person Pose Estimation Using Object Keypoint Similarity Loss](https://arxiv.org/abs/2204.06806)  
+
+  
 - [ ] ~~[YOLOv7](https://github.com/WongKinYiu/yolov7)~~
   - [Gwencong/yolov7-pose-tensorrt](https://github.com/Gwencong/yolov7-pose-tensorrt)
   - [ nanmi/yolov7-pose](https://github.com/nanmi/yolov7-pose)
     - bugs in `/YoloLayer_TRT_v7.0/build/libyolo.so`(The detection box is not synchronized with the screen)
 - [x] [YOLOv8](https://github.com/ultralytics/ultralytics)
+
+
+### Prepare [YOLOv8](https://github.com/ultralytics/ultralytics) TensorRT Engine
   - Choose yolov8-pose for better operator optimization of ONNX model
   - Base on [triple-Mu/YOLOv8-TensorRT/Pose.md](https://github.com/triple-Mu/YOLOv8-TensorRT/blob/main/docs/Pose.md)
 
  
-    - YOLOv8-pose Model with TensorRT
-      - The yolov8-pose model conversion route is : YOLOv8 PyTorch model -> ONNX -> TensorRT Engine
+- The yolov8-pose model conversion route is : YOLOv8 PyTorch model -> ONNX -> TensorRT Engine
 
-        ***Notice !!!*** This repository don't support TensorRT API building !!!
+  ***Notice !!!*** This repository don't support TensorRT API building !!!
 
-      - Export Orin ONNX model by ultralytics
-        You can leave this repo and use the original `ultralytics` repo for onnx export.
+#### Get `yolov8s-pose.pt`
+
+https://github.com/ultralytics/ultralytics
+
+</details>
+
+<details><summary>Benchmark of YOLOv8-Pose</summary>
+
+See [Pose Docs](https://docs.ultralytics.com/tasks/pose) for usage examples with these models.
+
+| Model                                                                                                | size<br><sup>(pixels) | mAP<sup>pose<br>50-95 | mAP<sup>pose<br>50 | Speed<br><sup>CPU ONNX<br>(ms) | Speed<br><sup>A100 TensorRT<br>(ms) | params<br><sup>(M) | FLOPs<br><sup>(B) |
+| ---------------------------------------------------------------------------------------------------- | --------------------- | --------------------- | ------------------ | ------------------------------ | ----------------------------------- | ------------------ | ----------------- |
+| [YOLOv8n-pose](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n-pose.pt)       | 640                   | 50.4                  | 80.1               | 131.8                          | 1.18                                | 3.3                | 9.2               |
+| [YOLOv8s-pose](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose.pt)       | 640                   | 60.0                  | 86.2               | 233.2                          | 1.42                                | 11.6               | 30.2              |
+| [YOLOv8m-pose](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8m-pose.pt)       | 640                   | 65.0                  | 88.8               | 456.3                          | 2.00                                | 26.4               | 81.0              |
+| [YOLOv8l-pose](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8l-pose.pt)       | 640                   | 67.6                  | 90.0               | 784.5                          | 2.59                                | 44.4               | 168.6             |
+| [YOLOv8x-pose](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8x-pose.pt)       | 640                   | 69.2                  | 90.2               | 1607.1                         | 3.73                                | 69.4               | 263.2             |
+| [YOLOv8x-pose-p6](https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8x-pose-p6.pt) | 1280                  | 71.6                  | 91.2               | 4088.7                         | 10.04                               | 99.1               | 1066.4            |
+
+- **mAP<sup>val</sup>** values are for single-model single-scale on [COCO Keypoints val2017](http://cocodataset.org)
+  dataset.
+  <br>Reproduce by `yolo val pose data=coco-pose.yaml device=0`
+- **Speed** averaged over COCO val images using an [Amazon EC2 P4d](https://aws.amazon.com/ec2/instance-types/p4/) instance.
+  <br>Reproduce by `yolo val pose data=coco8-pose.yaml batch=1 device=0|cpu`
+
+- Source : [ultralytics](https://github.com/ultralytics/ultralytics)
+</details>
+
+```
+wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose.pt
+```
+#### Pytorch Model to Onnx Model 
+- Export Orin ONNX model by ultralytics
+  You can leave this repo and use the original `ultralytics` repo for onnx export.
+- CLI tools(`yolo` command from "ultralytics.com")
+  - Recommended in your server to get faster speed
+  - ref : [ultralytics.com/modes/export](https://docs.ultralytics.com/modes/export/#arguments)
+  - Usage(after `pip3 install ultralytics`):
 
 
-      - CLI tools
-        - Recommended in your server to get faster speed
-        - [ultralytics.com/modes/export](https://docs.ultralytics.com/modes/export/#arguments)
-        - Usage(after `pip3 install ultralytics`):
-      
+  ```shell
+  yolo export model=yolov8s-pose.pt format=onnx device=0 \
+              imgsz=640 \
+              half=true \
+              dynamic=true \
+              simplify=true
+  ```
 
-        ```shell
-        wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose.pt
-        yolo export model=yolov8s-pose.pt format=onnx device=0 \
-                    imgsz=640 \
-                    half=true \
-                    dynamic=true \
-                    simplify=true
-        ```
+  After executing the above command, you will get an engine named `yolov8s-pose.onnx` too.
 
-      After executing the above command, you will get an engine named `yolov8s-pose.onnx` too.
+- [Optional] Execute `netron yolov8s-pose.onnx` to view the model architecture
+  -  Check Model Ouputs
+      - Note that the number of anchors for `YOLOv8-Pose` is  <span style="color:yellow;">56</span> 
 
-      Execute `netron yolov8s-pose.onnx` to view the model architecture
+        - bbox(4) + confidence(1) + keypoints(3 x 17) = 4 + 1 + 0 + 51 = 56
+      - The number of anchors of `YOLOv7-Pose` is <span style="color:yellow;">57</span> 
+        - bbox(4) + confidence(1) + cls(1) + keypoints(3 x 17) = 4 + 1 + 1 + 51 = 57
+  - Model registration information of YOLOv8S-Pose
+    - Tensor shape of `INPUTS` (batch, channel, height, width) and \
+      `OUTPUTS` (batch, anchors, max_outpus).
 
       <div style="text-align: center;">
         <figure>
               <img  src="imgs/netron_yolov8s-pose_dy_onnx.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="400">
-              <figcaption> <br>Upper : Model registration information of YOLOv8S-Pose. <br>Bottom: Tensor shape of `INPUTS` (batch, channel, height, width) and `OUTPUTS` (batch, anchors, max_outpus). </figcaption>
+              <figcaption>  </figcaption>
         </figure>
       </div>
-
-        - Model Ouputs
-          - Note that the number of anchors for `YOLOv8-Pose` is  <span style="color:yellow;">56</span> 
-  
-            - bbox(4) + confidence(1) + keypoints(3 x 17) = 4 + 1 + 0 + 51 = 56
-          - The number of anchors of `YOLOv7-Pose` is <span style="color:yellow;">57</span> 
-            - bbox(4) + confidence(1) + cls(1) + keypoints(3 x 17) = 4 + 1 + 1 + 51 = 57
-
-      <div style="text-align: center;">
-        <figure>
-              <img  src="imgs/YOLO-pose_architecture_based_on_YOLOv5.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="600">
-              <figcaption> <br>YOLO-pose architecture <br> source : [YOLO-Pose: Enhancing YOLO for Multi Person Pose Estimation Using Object Keypoint Similarity Loss](https://arxiv.org/abs/2204.06806) </figcaption>
-        </figure>
-      </div>
-      
-          
-
-
     
     - Move your Onnx Model to egdge device in specific path
       - put model on your edge device
@@ -137,22 +170,22 @@
 
 
 
-  - Onnx to TensorRT Engine with dynamic_batch
-    - Must be bound to a hardware device, please put it on your edge device
-    - Specify parameters such as `-minShapes --optShapes --maxShapes` to set dynamic batch processing.
-    ```shell
-    cd /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT 
-    /usr/src/tensorrt/bin/trtexec --verbose \
-        --onnx=yolov8s-pose-dy.onnx \
-        --fp16 \
-        --workspace=4096 \
-        --minShapes=images:1x3x640x640 \
-        --optShapes=images:12x3x640x640 \
-        --maxShapes=images:16x3x640x640 \
-        --saveEngine=yolov8s-pose-dy.engine
-    ``` 
+#### Onnx to TensorRT Engine with dynamic_batch
+  - Must be bound to a hardware device, please put it on your edge device
+  - Specify parameters such as `-minShapes --optShapes --maxShapes` to set dynamic batch processing.
+  ```shell
+  cd /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT 
+  /usr/src/tensorrt/bin/trtexec --verbose \
+      --onnx=yolov8s-pose-dy.onnx \
+      --fp16 \
+      --workspace=4096 \
+      --minShapes=images:1x3x640x640 \
+      --optShapes=images:12x3x640x640 \
+      --maxShapes=images:16x3x640x640 \
+      --saveEngine=yolov8s-pose-dy.engine
+  ``` 
 
-### Test and Check Tensortrt Engine
+#### Test and Check Tensortrt Engine
 
 ```
 /usr/src/tensorrt/bin/trtexec --loadEngine=yolov8s-pose-dy.engine
@@ -165,14 +198,14 @@
       --shapes=images:12x3x640x640 
   ``` 
 
-
+- Performance on Jetson(AGX Xavier / AGX Orin)
 
   | model        |   device    | size | batch | trtexec<br>fps | trtexec<br>ms |
   | ------------ |:-----------:| ---- | ----- |:--------------:|:-------------:|
-  | yolov8s-pose | AGX  Xavier | 640  | 1     |      40.6      |     24.7      |
-  | yolov8s-pose | AGX  Xavier | 640  | 12    |      12.1      |     86.4      |
-  | yolov8s-pose |  AGX  Orin  | 640  | 1     |     258.8      |      4.2      |
-  | yolov8s-pose |  AGX  Orin  | 640  | 12    |      34.8      |     33.2      |
+  | yolov8s-pose | AGX Xavier | 640  | 1     |      40.6      |     24.7      |
+  | yolov8s-pose | AGX Xavier | 640  | 12    |      12.1      |     86.4      |
+  | yolov8s-pose |  AGX Orin  | 640  | 1     |     258.8      |      4.2      |
+  | yolov8s-pose |  AGX Orin  | 640  | 12    |      34.8      |     33.2      |
   
 
 
