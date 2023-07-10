@@ -6,7 +6,7 @@
 <div style="text-align: center;">
     <figure>
           <img  src="imgs/Multistream_4_YOLOv8s-pose-3.PNG" alt="Multistream_4_YOLOv8s-pose-3.PNG" width="600">
-          <figcaption>YOLO-Pose accelerated with TensorRT and multi-streaming with Deepstream SDK </figcaption>
+          <figcaption> <br> YOLO-Pose accelerated with TensorRT and multi-streaming with Deepstream SDK </figcaption>
     </figure>
 </div>
 
@@ -51,17 +51,17 @@
 - Installing GstRtspServer and introspection typelib
  
     ```
-    $ sudo apt update
-    $ sudo apt install python3-gi python3-dev python3-gst-1.0 -y
-    $ sudo apt-get install libgstrtspserver-1.0-0 gstreamer1.0-rtsp
+    sudo apt update
+    sudo apt install python3-gi python3-dev python3-gst-1.0 -y
+    sudo apt-get install libgstrtspserver-1.0-0 gstreamer1.0-rtsp
     ```
     For gst-rtsp-server (and other GStreamer stuff) to be accessible in
     Python through gi.require_version(), it needs to be built with
     gobject-introspection enabled (libgstrtspserver-1.0-0 is already).
     Yet, we need to install the introspection typelib package:
     ```
-    $ sudo apt-get install libgirepository1.0-dev
-    $ sudo apt-get install gobject-introspection gir1.2-gst-rtsp-server-1.0
+    sudo apt-get install libgirepository1.0-dev
+    sudo apt-get install gobject-introspection gir1.2-gst-rtsp-server-1.0
     ```
 ## Prepare YOLO-Pose Model
 - [ ] ~~[YOLOv7](https://github.com/WongKinYiu/yolov7)~~
@@ -104,7 +104,7 @@
       <div style="text-align: center;">
         <figure>
               <img  src="imgs/netron_yolov8s-pose_dy_onnx.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="400">
-              <figcaption> Upper : Model registration information of YOLOv8S-Pose. <br>Bottom: Tensor shape of `INPUTS` (batch, channel, height, width) and `OUTPUTS` (batch, anchors, max_outpus). </figcaption>
+              <figcaption> <br>Upper : Model registration information of YOLOv8S-Pose. <br>Bottom: Tensor shape of `INPUTS` (batch, channel, height, width) and `OUTPUTS` (batch, anchors, max_outpus). </figcaption>
         </figure>
       </div>
 
@@ -118,7 +118,7 @@
       <div style="text-align: center;">
         <figure>
               <img  src="imgs/YOLO-pose_architecture_based_on_YOLOv5.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="600">
-              <figcaption> YOLO-pose architecture <br> source : [YOLO-Pose: Enhancing YOLO for Multi Person Pose Estimation Using Object Keypoint Similarity Loss](https://arxiv.org/abs/2204.06806) </figcaption>
+              <figcaption> <br>YOLO-pose architecture <br> source : [YOLO-Pose: Enhancing YOLO for Multi Person Pose Estimation Using Object Keypoint Similarity Loss](https://arxiv.org/abs/2204.06806) </figcaption>
         </figure>
       </div>
       
@@ -177,11 +177,9 @@
 
 
 
-
-
 ## Basic usage
 
-### download  ripository
+### Download  Ripository
 ```shell
 cd /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps 
 sudo chmod u+rwx -R apps/ # Add Write and execute permissions for group user
@@ -211,24 +209,33 @@ git clone <this ripository>
     - `rtsp://<server IP>:8554/ds-test`
     - VLC Player on client suggested([Camera Streaming and Multimedia](https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md)) 
    
-Note:
-1) if -g/--pgie: uses nvinfer as default. (['nvinfer', 'nvinferserver']).
-2) -config/--config-file: need to be provided for custom models.
-3) --file-loop: option can be used to loop input files after EOS.
-4) --conf-thres: Objec Confidence Threshold
-5) --iou-thres: IOU Threshold for NMS
+  Note:
+  1) if `-g/--pgie` : uses nvinfer as default. (['nvinfer', 'nvinferserver']).
+  2) `-config/--config-file` : need to be provided for custom models.
+  3) `--file-loop` : option can be used to loop input files after EOS.
+  4) `--conf-thres` : Objec Confidence Threshold
+  5) `--iou-thres` : IOU Threshold for NMS
 
 
+  This sample app is derived from [NVIDIA-AI-IOT/deepstream_python_apps/apps](https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/441b50da01779a2afacc60d40cd666d4bdde628e/apps) and adds customization features
 
-This sample app is derived from [NVIDIA-AI-IOT/deepstream_python_apps/apps](https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/441b50da01779a2afacc60d40cd666d4bdde628e/apps) and adds customization features
+  - Includes following : 
 
-Includes following : 
-  - [X] Accepts multiple sources 
-  - [x] Accepts RTSP stream as input and gives out inference as RTSP stream
-  - [x] NVInfer GPU inference engine
-  - [ ] NVInferserver  GPU inference engine(Not yet tested)
-  - [x] MultiObjectTracker(NVTracker)
-  
+    - [x] Accepts multiple sources 
+    - [x] Accepts RTSP stream as input and gives out inference as RTSP stream
+    - [x] NVInfer GPU inference engine
+    - [ ] NVInferserver  GPU inference engine(Not yet tested)
+    - [x] MultiObjectTracker(NVTracker)
+    - [x] Automatically adjusts the tensor shape of the loaded input and output (`NvDsInferTensorMeta`) 
+    - [x] Extract the stream metadata, imagedata, which contains useful information about the frames in the batched buffer.
+        <div style="text-align: center;">
+          <figure>
+                <img  src="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/blob/master/apps/deepstream-imagedata-multistream/imagedata-app-block-diagram.png?raw=true" alt="imagedata-app-block-diagram.png" width="800">
+                <figcaption>  <br>  </figcaption>
+          </figure>
+        </div>
+
+      source : [deepstream-imagedata-multistream](https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/master/apps/deepstream-imagedata-multistream)
 ---
 # Reference
 - [YOLOv5](https://github.com/ultralytics/yolov5)
