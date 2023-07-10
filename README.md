@@ -91,7 +91,7 @@
 
   ***Notice !!!*** This repository don't support TensorRT API building !!!
 
-#### Get `yolov8s-pose.pt`
+#### 0. Get `yolov8s-pose.pt`
 
 https://github.com/ultralytics/ultralytics
 
@@ -122,7 +122,7 @@ See [Pose Docs](https://docs.ultralytics.com/tasks/pose) for usage examples with
 ```
 wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose.pt
 ```
-#### Pytorch Model to Onnx Model 
+#### 1. Pytorch Model to Onnx Model 
 - Export Orin ONNX model by ultralytics
   You can leave this repo and use the original `ultralytics` repo for onnx export.
 - CLI tools(`yolo` command from "ultralytics.com")
@@ -141,36 +141,41 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 
   After executing the above command, you will get an engine named `yolov8s-pose.onnx` too.
 
-- [Optional] Execute `netron yolov8s-pose.onnx` to view the model architecture
-  -  Check Model Ouputs
-      - Note that the number of anchors for `YOLOv8-Pose` is  <span style="color:yellow;">56</span> 
-
-        - bbox(4) + confidence(1) + keypoints(3 x 17) = 4 + 1 + 0 + 51 = 56
-      - The number of anchors of `YOLOv7-Pose` is <span style="color:yellow;">57</span> 
-        - bbox(4) + confidence(1) + cls(1) + keypoints(3 x 17) = 4 + 1 + 1 + 51 = 57
-  - Model registration information of YOLOv8S-Pose
-    - Tensor shape of `INPUTS` (batch, channel, height, width) and \
-      `OUTPUTS` (batch, anchors, max_outpus).
-
-      <div style="text-align: center;">
-        <figure>
-              <img  src="imgs/netron_yolov8s-pose_dy_onnx.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="400">
-              <figcaption>  </figcaption>
-        </figure>
-      </div>
-    
-    - Move your Onnx Model to egdge device in specific path
-      - put model on your edge device
-        ```shell
-        sudo chmod u+rwx -R /opt/nvidia/deepstream/deepstream/samples/models # Add Write and execute permissions 
-        sudo mkdir -p tao_pretrained_models/YOLOv8-TensorRT 
-        sudo chmod u+rwx -R tao_pretrained_models/YOLOv8-TensorRT 
-        mv -v <path_of_your_yolov8-pose_model> /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy.onnx
-        ```
+- Move your Onnx Model to egdge device in specific path
+  - put model on your edge device
+    ```shell
+    sudo chmod u+rwx -R /opt/nvidia/deepstream/deepstream/samples/models # Add Write and execute permissions 
+    sudo mkdir -p tao_pretrained_models/YOLOv8-TensorRT 
+    sudo chmod u+rwx -R tao_pretrained_models/YOLOv8-TensorRT 
+    mv -v <path_of_your_yolov8-pose_model> /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy.onnx
+    ```
 
 
 
-#### Onnx to TensorRT Engine with dynamic_batch
+
+#### [Optional] Execute `netron yolov8s-pose.onnx` to view the model architecture
+- Check Model Ouputs
+  - Note that the number of anchors for `YOLOv8-Pose` is  <span style="color:yellow;">**56**</span>
+    - bbox(4) + confidence(1) + keypoints(3 x 17) = 4 + 1 + 0 + 51 = 56
+  - The number of anchors of `YOLOv7-Pose` is <span style="color:yellow;">**57**</span> 
+    - bbox(4) + confidence(1) + cls(1) + keypoints(3 x 17) = 4 + 1 + 1 + 51 = 57
+- Model registration information of YOLOv8S-Pose
+  - **`INPUTS` : (batch, channel, height, width)**
+  - **`OUTPUTS` : (batch, anchors, max_outpus)**
+ 
+
+<div style="text-align: center;">
+    <figure>
+      <img  src="imgs/netron_yolov8s-pose_dy_onnx.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="400">
+    <figcaption>  </figcaption>
+  </figure>
+</div>
+
+
+
+
+
+#### 2. Onnx to TensorRT Engine with dynamic_batch
   - Must be bound to a hardware device, please put it on your edge device
   - Specify parameters such as `-minShapes --optShapes --maxShapes` to set dynamic batch processing.
   ```shell
@@ -185,7 +190,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
       --saveEngine=yolov8s-pose-dy.engine
   ``` 
 
-#### Test and Check Tensortrt Engine
+#### 3. Test and Check Tensortrt Engine
 
 ```
 /usr/src/tensorrt/bin/trtexec --loadEngine=yolov8s-pose-dy.engine
@@ -198,14 +203,14 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
       --shapes=images:12x3x640x640 
   ``` 
 
-- Performance on Jetson(AGX Xavier / AGX Orin)
+  - Performance on Jetson(AGX Xavier / AGX Orin)
 
-  | model        |   device    | size | batch | trtexec<br>fps | trtexec<br>ms |
-  | ------------ |:-----------:| ---- | ----- |:--------------:|:-------------:|
-  | yolov8s-pose | AGX Xavier | 640  | 1     |      40.6      |     24.7      |
-  | yolov8s-pose | AGX Xavier | 640  | 12    |      12.1      |     86.4      |
-  | yolov8s-pose |  AGX Orin  | 640  | 1     |     258.8      |      4.2      |
-  | yolov8s-pose |  AGX Orin  | 640  | 12    |      34.8      |     33.2      |
+    | model        |   device    | size | batch | trtexec<br>fps | trtexec<br>ms |
+    | ------------ |:-----------:| ---- | ----- |:--------------:|:-------------:|
+    | yolov8s-pose | AGX Xavier | 640  | 1     |      40.6      |     24.7      |
+    | yolov8s-pose | AGX Xavier | 640  | 12    |      12.1      |     86.4      |
+    | yolov8s-pose |  AGX Orin  | 640  | 1     |     258.8      |      4.2      |
+    | yolov8s-pose |  AGX Orin  | 640  | 12    |      34.8      |     33.2      |
   
 
 
