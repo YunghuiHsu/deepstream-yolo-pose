@@ -14,6 +14,8 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fatrox%2Fsync-dotenv%2Fbadge&style=flat)](https://github.com/triple-Mu/YOLOv8-TensorRT)
 [![Python Version](https://img.shields.io/badge/Python-3.8--3.10-FFD43B?logo=python)](https://github.com/triple-Mu/YOLOv8-TensorRT)
 [![img](https://badgen.net/badge/icon/tensorrt?icon=azurepipelines&label)](https://developer.nvidia.com/tensorrt)
+[![img](https://badgen.net/github/prs/YunghuiHsu/deepstream-yolo-pose)](https://github.com/YunghuiHsu/deepstream-yolo-pose/pulls)
+[![img](https://img.shields.io/github/stars/YunghuiHsu/deepstream-yolo-pose?color=ccf)](https://github.com/YunghuiHsu/deepstream-yolo-pose)
 ---
 
 
@@ -34,21 +36,13 @@
 * [NVIDIA Driver 525.85.12 (Data center / Tesla series) / 525.105.17 (TITAN, GeForce RTX / GTX series and RTX / Quadro series)](https://www.nvidia.com.br/Download/index.aspx)
 * [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-getting-started)
 * [GStreamer 1.16.3](https://gstreamer.freedesktop.org/)
-<<<<<<< HEAD
-* [(DeepStream-Yolo)](https://github.com/marcoslucianops/DeepStream-Yolo)
-=======
 * [DeepStream-Yol)](https://github.com/marcoslucianops/DeepStream-Yolo)
->>>>>>> 82ee317ffcbfb197188a019364694d8e4daaf4b2
   
 #### DeepStream 6.2 on Jetson platform
 - [JetPack 5.1.1 / 5.1](https://developer.nvidia.com/embedded/jetpack)
 - [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-sdk)
   - Download and install from https://developer.nvidia.com/deepstream-download
-<<<<<<< HEAD
-- [(DeepStream-Yolo)](https://github.com/marcoslucianops/DeepStream-Yolo)
-=======
 - [DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
->>>>>>> 82ee317ffcbfb197188a019364694d8e4daaf4b2
 
 
 ### Deepstream Python Biding
