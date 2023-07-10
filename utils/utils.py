@@ -1,3 +1,12 @@
+ 
+################################################################################
+# Modify from : 
+# https://github.com/Gwencong/yolov7-pose-tensorrt
+# https://github.com/NVIDIA-AI-IOT/deepstream_python_apps
+# https://github.com/WongKinYiu/yolov7
+# https://github.com/TexasInstruments/edgeai-yolov5/tree/yolo-pose
+################################################################################
+
 import cv2
 import sys
 import random
@@ -98,7 +107,6 @@ def create_source_bin(index, uri, file_loop:bool=False):
     if file_loop:
         # use nvurisrcbin to enable file-loop
         uri_decode_bin=Gst.ElementFactory.make("nvurisrcbin", "uri-decode-bin")
-        print(uri_decode_bin)
         uri_decode_bin.set_property("file-loop", 1)
         uri_decode_bin.set_property("cudadec-memtype", 0)
     else:

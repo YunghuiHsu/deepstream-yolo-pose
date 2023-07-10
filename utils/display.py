@@ -1,3 +1,8 @@
+################################################################################
+# Modify from : 
+# https://github.com/Gwencong/yolov7-pose-tensorrt
+# https://github.com/NVIDIA-AI-IOT/deepstream_python_apps
+################################################################################
 
 import cv2
 import sys
