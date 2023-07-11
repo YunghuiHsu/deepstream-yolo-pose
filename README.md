@@ -76,10 +76,12 @@
   source : [YOLO-Pose: Enhancing YOLO for Multi Person Pose Estimation Using Object Keypoint Similarity Loss](https://arxiv.org/abs/2204.06806)  
 
   
-- [ ] ~~[YOLOv7](https://github.com/WongKinYiu/yolov7)~~
+- [ ] [YOLOv7](https://github.com/WongKinYiu/yolov7)
   - [Gwencong/yolov7-pose-tensorrt](https://github.com/Gwencong/yolov7-pose-tensorrt)
   - [ nanmi/yolov7-pose](https://github.com/nanmi/yolov7-pose)
-    - bugs in `/YoloLayer_TRT_v7.0/build/libyolo.so`(The detection box is not synchronized with the screen)
+    - support [single batch only](https://github.com/nanmi/yolov7-pose/issues/20)
+    - Some problems with `/YoloLayer_TRT_v7.0/build/libyolo.so`
+      - The detection box is not synchronized with the screen on Jetson AGX Xavier(May be GPU Overloaded)
 - [x] [YOLOv8](https://github.com/ultralytics/ultralytics)
 
 
@@ -208,11 +210,13 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 
     | model        |   device    | size | batch | trtexec<br>fps | trtexec<br>ms |
     | ------------ |:-----------:| ---- | ----- |:--------------:|:-------------:|
+    | yolov7w-pose* | AGX Xavier | 640  | 1     |      38.6      |     25.9      |
     | yolov8s-pose | AGX Xavier | 640  | 1     |      40.6      |     24.7      |
     | yolov8s-pose | AGX Xavier | 640  | 12    |      12.1      |     86.4      |
     | yolov8s-pose |  AGX Orin  | 640  | 1     |     258.8      |      4.2      |
     | yolov8s-pose |  AGX Orin  | 640  | 12    |      34.8      |     33.2      |
-  
+
+    \* yolov7w-pose with yolo layer tensorrt plugin from [(nanmi/yolov7-pose)](https://github.com/nanmi/yolov7-pose)
 
 ---
 
@@ -258,6 +262,7 @@ git clone https://github.com/YunghuiHsu/deepstream-yolo-pose.git
   - Includes following : 
 
     - [x] Accepts multiple sources 
+    - [x] Dynamic batch model(YOLO-POSE) 
     - [x] Accepts RTSP stream as input and gives out inference as RTSP stream
     - [x] NVInfer GPU inference engine
     - [ ] NVInferserver  GPU inference engine(Not yet tested)
