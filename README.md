@@ -19,16 +19,14 @@
 ---
 
 
-
-
-## System Requirements
+# System Requirements
 - Python 3.8
   - Should be already installed with Ubuntu 20.04
 - Ubuntu 20.04 
 - CUDA 11.4 (Jetson)
 - TensorRT 8+
 
-#### DeepStream 6.2 on x86 platform
+### DeepStream 6.2 on x86 platform
 
 * [Ubuntu 20.04](https://releases.ubuntu.com/20.04/)
 * [CUDA 11.8](https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=runfile_local)
@@ -38,17 +36,17 @@
 * [GStreamer 1.16.3](https://gstreamer.freedesktop.org/)
 * [DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
   
-#### DeepStream 6.2 on Jetson platform
+### DeepStream 6.2 on Jetson platform
 - [JetPack 5.1.1 / 5.1](https://developer.nvidia.com/embedded/jetpack)
 - [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-sdk)
   - Download and install from https://developer.nvidia.com/deepstream-download
 - [DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
 
 
-### Deepstream Python Biding
+## Deepstream Python Biding
 - [Deepstream Python Biding](https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/master/bindings)
 
-### Gst-python and GstRtspServer
+## Gst-python and GstRtspServer
 
 - Installing GstRtspServer and introspection typelib
  
@@ -65,7 +63,8 @@
     sudo apt-get install libgirepository1.0-dev
     sudo apt-get install gobject-introspection gir1.2-gst-rtsp-server-1.0
     ```
-## Prepare YOLO-Pose Model
+---
+# Prepare YOLO-Pose Model
 
   <div style="text-align: center;">
     <figure>
@@ -84,7 +83,7 @@
 - [x] [YOLOv8](https://github.com/ultralytics/ultralytics)
 
 
-### Prepare [YOLOv8](https://github.com/ultralytics/ultralytics) TensorRT Engine
+## Prepare [YOLOv8](https://github.com/ultralytics/ultralytics) TensorRT Engine
   - Choose yolov8-pose for better operator optimization of ONNX model
   - Base on [triple-Mu/YOLOv8-TensorRT/Pose.md](https://github.com/triple-Mu/YOLOv8-TensorRT/blob/main/docs/Pose.md)
 
@@ -93,7 +92,7 @@
 
   ***Notice !!!*** This repository don't support TensorRT API building !!!
 
-#### 0. Get `yolov8s-pose.pt`
+### 0. Get `yolov8s-pose.pt`
 
 https://github.com/ultralytics/ultralytics
 
@@ -124,7 +123,7 @@ See [Pose Docs](https://docs.ultralytics.com/tasks/pose) for usage examples with
 ```
 wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose.pt
 ```
-#### 1. Pytorch Model to Onnx Model 
+### 1. Pytorch Model to Onnx Model 
 - Export Orin ONNX model by ultralytics
   You can leave this repo and use the original `ultralytics` repo for onnx export.
 - CLI tools(`yolo` command from "ultralytics.com")
@@ -177,7 +176,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 
 
 
-#### 2. Onnx to TensorRT Engine with dynamic_batch
+### 2. Onnx to TensorRT Engine with dynamic_batch
   - Must be bound to a hardware device, please put it on your edge device
   - Specify parameters such as `-minShapes --optShapes --maxShapes` to set dynamic batch processing.
   ```shell
@@ -192,7 +191,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
       --saveEngine=yolov8s-pose-dy.engine
   ``` 
 
-#### 3. Test and Check Tensortrt Engine
+### 3. Test and Check Tensortrt Engine
 
 ```
 /usr/src/tensorrt/bin/trtexec --loadEngine=yolov8s-pose-dy.engine
@@ -215,17 +214,17 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
     | yolov8s-pose |  AGX Orin  | 640  | 12    |      34.8      |     33.2      |
   
 
+---
 
+# Basic usage
 
-## Basic usage
-
-### Download  Ripository
+## Download  Ripository
 ```shell
 git clone https://github.com/YunghuiHsu/deepstream-yolo-pose.git
 ```
 
 
-### To run the app with default settings:
+## To run the app with default settings:
 ------------------------------------------
   - NVInfer with rtsp inputs 
      ```shell
