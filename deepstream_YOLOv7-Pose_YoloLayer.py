@@ -173,10 +173,10 @@ def pose_src_pad_buffer_probe(pad, info, u_data):
                 if frame_number == 0 :
                     print(f'\tLoad Model Output From LayerInfo. Output Shape : {out.shape}')
                     
-                # [Optional] Postprocess for yolov8s-pose prediction tensor for YOLOv7-pose with YoloLayer_TRT_v7.0
+                # [Optional] Postprocess for YOLOv7-pose(with YoloLayer_TRT_v7.0 Layer) prediction tensor
                 # (https://github.com/nanmi/yolov7-pose/)
                 # (57001, 1, 1) > (57000, 1, 1) > (1000, 57)。
-                out = out[1:, ...].reshape(-1 , 57)   # or out.squeeze().out[:, 1:].reshape(out.shape[0] , -1 , 57)
+                out = out[1:, ...].reshape(-1 , 57)   # or out.squeeze()[1:].reshape(-1 , 57)
                 # ----------------------------------------------------------------------------------------------------------------------
 
                 #  Explicitly specify batch dimensions
@@ -184,7 +184,7 @@ def pose_src_pad_buffer_probe(pad, info, u_data):
                     out = out[np.newaxis, :]
                     # print(f'add axis 0 for model output : {out.shape}')
 
-                # [Optional] Postprocess for yolov8s-pose prediction tensor 。
+                # [Optional] Postprocess for yolov8s-pose prediction tensor
                 # (https://github.com/triple-Mu/YOLOv8-TensorRT/tree/triplemu/pose-infer)
                 # 　(batch, 56, 8400)　＞(batch, 8400, 56) for yolov8
                 # out = out.transpose((0, 2, 1))
