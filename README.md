@@ -221,10 +221,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 
 ### Download  Ripository
 ```shell
-cd /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps 
-sudo chmod u+rwx -R apps/ # Add Write and execute permissions for group user
-cd apps/
-git clone <this ripository>
+git clone https://github.com/YunghuiHsu/deepstream-yolo-pose.git
 ```
 
 
@@ -267,7 +264,7 @@ git clone <this ripository>
     - [ ] NVInferserver  GPU inference engine(Not yet tested)
     - [x] MultiObjectTracker(NVTracker)
     - [x] Automatically adjusts the tensor shape of the loaded input and output (`NvDsInferTensorMeta`) 
-    - [x] Extract the stream metadata, imagedata, which contains useful information about the frames in the batched buffer.
+    - [x] Extract the stream metadata, ~~image data~~ from the batched buffer of [`Gst-nvinfer `](https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvinfer.html)
         <div style="text-align: center;">
           <figure>
                 <img  src="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/blob/master/apps/deepstream-imagedata-multistream/imagedata-app-block-diagram.png?raw=true" alt="imagedata-app-block-diagram.png" width="800">
@@ -277,12 +274,17 @@ git clone <this ripository>
 
       source : [deepstream-imagedata-multistream](https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/master/apps/deepstream-imagedata-multistream)
 ---
-# Reference
+# Acknowledgements
 - [YOLOv5](https://github.com/ultralytics/yolov5)
 - [YOLOv7](https://github.com/WongKinYiu/yolov7)
 - [YOLOv8](https://github.com/ultralytics/ultralytics)
 - [TexasInstruments/edgeai-yolov5](https://github.com/TexasInstruments/edgeai-yolov5/tree/yolo-pose)
-- [triple-Mu/YOLOv8-TensorRT](https://github.com/triple-Mu/YOLOv8-TensorRT/blob/main/docs/Pose.md)
+- [triple-Mu/YOLOv8-TensorRT](https://github.com/triple-Mu/YOLOv8-TensorRT/blob/main/docs/Pose.md) 
 - [marcoslucianops/DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
-- [Gwencong/yolov7-pose-tensorrt](https://github.com/Gwencong/yolov7-pose-tensorrt)
-- [ nanmi/yolov7-pose](https://github.com/nanmi/yolov7-pose)
+- [Gwencong/yolov7-pose-tensorrt ](https://github.com/Gwencong/yolov7-pose-tensorrt) 
+- [nanmi/yolov7-pose](https://github.com/nanmi/yolov7-pose) 
+
+# Reference
+#### [NVIDIA DeepStream SDK API Reference/NvDsInferTensorMeta Struct Reference](https://docs.nvidia.com/metropolis/deepstream/dev-guide/sdk-api/structNvDsInferTensorMeta.html)
+#### [DEEPSTREAM PYTHON API REFERENCE/NvDsInfer](https://docs.nvidia.com/metropolis/deepstream/python-api/PYTHON_API/NvDsInfer/NvDsInfer_toc.html)
+#### [Using a Custom Model with DeepStream](https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_using_custom_model.html)
