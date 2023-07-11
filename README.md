@@ -81,7 +81,7 @@
   - [ nanmi/yolov7-pose](https://github.com/nanmi/yolov7-pose)
     - support [single batch only](https://github.com/nanmi/yolov7-pose/issues/20)
     - Some problems with `/YoloLayer_TRT_v7.0/build/libyolo.so`
-      - The detection box is not synchronized with the screen on Jetson AGX Xavier(May be GPU Overloaded)
+      - The detection box is not synchronized with the screen on Jetson 
 - [x] [YOLOv8](https://github.com/ultralytics/ultralytics)
 
 
@@ -206,17 +206,24 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
       --shapes=images:12x3x640x640 
   ``` 
 
-  - Performance on Jetson(AGX Xavier / AGX Orin)
+  - Performance on Jetson(AGX Xavier / AGX Orin) for TensorRT Engine
 
-    | model        |   device    | size | batch | trtexec<br>fps | trtexec<br>ms |
-    | ------------ |:-----------:| ---- | ----- |:--------------:|:-------------:|
-    | yolov7w-pose* | AGX Xavier | 640  | 1     |      38.6      |     25.9      |
-    | yolov8s-pose | AGX Xavier | 640  | 1     |      40.6      |     24.7      |
-    | yolov8s-pose | AGX Xavier | 640  | 12    |      12.1      |     86.4      |
-    | yolov8s-pose |  AGX Orin  | 640  | 1     |     258.8      |      4.2      |
-    | yolov8s-pose |  AGX Orin  | 640  | 12    |      34.8      |     33.2      |
+| model                |   device   | size | batch |  fps  |  ms  |
+| -------------------- |:----------:|:----:|:-----:|:-----:|:----:|
+| yolov8s-pose.engine  | AGX Xavier | 640  |   1   | 40.6  | 24.7 |
+| yolov8s-pose.engine  | AGX Xavier | 640  |  12   | 12.1  | 86.4 |
+| yolov8s-pose.engine  |  AGX Orin  | 640  |   1   | 258.8 | 4.2  |
+| yolov8s-pose.engine  |  AGX Orin  | 640  |  12   | 34.8  | 33.2 |
+| yolov7w-pose.engine* | AGX Xavier | 960  |   1   | 19.0  | 52.1 |
+| yolov7w-pose.engine* |  AGX Orin  | 960  |   1   | 61.1  | 16.8 |
+| yolov7w-pose.pt      | AGX Xavier | 640  |   1   | 14.4  | 59.8 |
+| yolov7w-pose.pt      | AGX Xavier | 960  |   1   | 11.8  | 69.4 |
 
-    \* yolov7w-pose with yolo layer tensorrt plugin from [(nanmi/yolov7-pose)](https://github.com/nanmi/yolov7-pose)
+  - \* yolov7w-pose with yolo layer tensorrt plugin from [(nanmi/yolov7-pose)](https://github.com/nanmi/yolov7-pose).NMS not included。Single batch and image_size 960 only.  
+  - test .engine(TensorRT) model with `trtexec`  command.<br>
+  - test .pt model with Pytorch (with 15s video) for baseline.
+
+
 
 ---
 
