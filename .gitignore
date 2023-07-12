@@ -2,3 +2,6 @@ utils/__pycache__/
 configs/dstest1_pgie_YoloPose_config.txt
 configs/config_tracker_NvDCF_perf.yml
 configs/config_infer_primary_1.txt
+.vscode/settings.json
+deepstream_YOLOv7-Pose_YoloLayer.py
+configs/dstest1_pgie_YOLOv7-Pose-YOLOLAYER_config.txt

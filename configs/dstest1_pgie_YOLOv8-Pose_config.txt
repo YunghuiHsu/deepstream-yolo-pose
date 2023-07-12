@@ -60,7 +60,7 @@ gpu-id=0
 #process-mode=1  
 net-scale-factor=0.0039215697906911373
 
-model-engine-file=/opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy.engine
+model-engine-file=/opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy-sim-640.engine
 
 ## set a unique identifier for each instance of the GIE (GPU Inference Engine)
 gie-unique-id=1
