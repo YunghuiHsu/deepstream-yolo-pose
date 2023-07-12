@@ -137,7 +137,6 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
   ```shell
   yolo export model=yolov8s-pose.pt format=onnx device=0 \
               imgsz=640 \
-              half=true \
               dynamic=true \
               simplify=true
   ```
@@ -169,7 +168,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 
 <div style="text-align: center;">
     <figure>
-      <img  src="imgs/netron_yolov8s-pose_dy_onnx.PNG" alt="netron_yolov8s-pose_dy_onnx.PNG" width="400">
+      <img  src="imgs/netron_yolov8s-pose_dy-sim-640_onnx.PNG" alt="netron_yolov8s-pose_dy-sim-640_onnx.PNG" width="400">
     <figcaption>  </figcaption>
   </figure>
 </div>
@@ -183,7 +182,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
   - Specify parameters such as `-minShapes --optShapes --maxShapes` to set dynamic batch processing.
   ```shell
   cd /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT 
-  /usr/src/tensorrt/bin/trtexec --verbose \
+  sudo /usr/src/tensorrt/bin/trtexec --verbose \
       --onnx=yolov8s-pose-dy.onnx \
       --fp16 \
       --workspace=4096 \
