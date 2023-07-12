@@ -149,7 +149,8 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
     sudo chmod u+rwx -R /opt/nvidia/deepstream/deepstream/samples/models # Add Write and execute permissions 
     sudo mkdir -p tao_pretrained_models/YOLOv8-TensorRT 
     sudo chmod u+rwx -R tao_pretrained_models/YOLOv8-TensorRT 
-    mv -v <path_of_your_yolov8-pose_model> /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy.onnx
+    
+    mv -v <path_of_your_yolov8-pose_model> /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy-sim-640.onnx
     ```
 
 
@@ -183,13 +184,13 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
   ```shell
   cd /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT 
   sudo /usr/src/tensorrt/bin/trtexec --verbose \
-      --onnx=yolov8s-pose-dy.onnx \
+      --onnx=yolov8s-pose-dy-sim-640.onnx \
       --fp16 \
       --workspace=4096 \
       --minShapes=images:1x3x640x640 \
       --optShapes=images:12x3x640x640 \
       --maxShapes=images:16x3x640x640 \
-      --saveEngine=yolov8s-pose-dy.engine
+      --saveEngine=yolov8s-pose-dy-sim-640.engine
   ``` 
 
 ### 3. Test and Check Tensortrt Engine
@@ -201,7 +202,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
     -  `--shapes=spec` Set input shapes for dynamic shapes inference inputs.
   ```
   /usr/src/tensorrt/bin/trtexec  \
-      --loadEngine=yolov8s-pose-dy.engine \
+      --loadEngine=yolov8s-pose-dy-sim-640.engine \
       --shapes=images:12x3x640x640 
   ``` 
 
@@ -215,12 +216,13 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 | yolov8s-pose.engine  |  AGX Orin  | 640  |  12   | 34.8  | 33.2 |
 | yolov7w-pose.engine* | AGX Xavier | 960  |   1   | 19.0  | 52.1 |
 | yolov7w-pose.engine* |  AGX Orin  | 960  |   1   | 61.1  | 16.8 |
-| yolov7w-pose.pt      | AGX Xavier | 640  |   1   | 14.4  | 59.8 |
+| yolov7w-pose.pt      | AGX Xavier | 960  |   1   | 14.4  | 59.8 |
 | yolov7w-pose.pt      | AGX Xavier | 960  |   1   | 11.8  | 69.4 |
 
   - \* yolov7w-pose with yolo layer tensorrt plugin from [(nanmi/yolov7-pose)](https://github.com/nanmi/yolov7-pose).NMS not included。Single batch and image_size 960 only.  
   - test .engine(TensorRT) model with `trtexec`  command.<br>
   - test .pt model with Pytorch (with 15s video) for baseline.
+  - NMS not included in all test
 
 
 
