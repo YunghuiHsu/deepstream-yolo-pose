@@ -213,7 +213,7 @@ def postprocess(model_out,im0_shape,im1_shape,im0=None,conf_thres=0.25,iou_thres
 
 def postprocessNoNMS(model_out,im0_shape,im1_shape,im0=None,conf_thres=0.5,iou_thres=0.4,draw=True,line_thickness=3):
     # pred = non_max_suppression(model_out, conf_thres, iou_thres)
-    nmsed_indices, nmsed_boxes, nmsed_poses, nmsed_scores = model_out
+    nmsed_indices,nmsed_boxes,nmsed_poses,nmsed_scores = model_out
     batch_index, class_index, box_index = nmsed_indices[...,0],nmsed_indices[...,1],nmsed_indices[...,2]
     if np.any(np.isnan(box_index)) or np.all(box_index < 0):
         return [], [], []
@@ -268,9 +268,20 @@ def non_max_suppression(predictions, conf_thres=0.5, nms_thres=0.4):
     output = [np.zeros((0, 57))] * predictions.shape[0]
     for i,prediction in enumerate(predictions):
         # Get the boxes that score > CONF_THRESH
+        # print(f' max : {np.max(prediction[:, 4])}, min : {np.min(prediction[:, 4])}, median: {np.median(prediction[:, 4])}')
         boxes = prediction[prediction[:, 4] >= conf_thres]
 
         # Trandform bbox from [center_x, center_y, w, h] to [x1, y1, x2, y2]
+        # print(f'boxes before xywh2xyxy | max_x :{np.max(boxes [:, 0])}, min_x : {np.min((boxes [:, 0]))}')
+        # print(f'boxes before xywh2xyxy | max_y :{np.max(boxes [:, 1])}, min_y : {np.min((boxes [:, 1]))}')
+        # print(f'boxes before xywh2xyxy | max_w :{np.max(boxes [:, 2])}, min_w : {np.min((boxes [:, 2]))}')
+        # print(f'boxes before xywh2xyxy | max_h :{np.max(boxes [:, 3])}, min_h : {np.min((boxes [:, 3]))}')
+        # print(f'kps_x before xywh2xyxy | mean_x  :{np.mean(boxes [:, 6::3])}, max_x  :{np.max(boxes [:, 6::3])}, min_x : {np.min((boxes [:, 6::3]))}')
+        # print(f'kps_y before xywh2xyxy | mean_y  :{np.mean(boxes [:, 7::3])}, max_y  :{np.max(boxes [:, 7::3])}, min_y : {np.min((boxes [:, 7::3]))}')
+        # print(f'kps_con before xywh2xyxy | mean_con  :{np.mean(boxes [:, 8::3])},max_con  :{np.max(boxes [:, 8::3])}, min_con : {np.min((boxes [:, 8::3]))}')
+        # print(f'kps_x before xywh2xyxy |  :{boxes [:, 6::3]}')
+        # print(f'kps_y before xywh2xyxy |  :{boxes [:, 7::3]}')
+        # print(f'kps_con before xywh2xyxy |  :{boxes [:, 8::3]}')
         boxes[:, :4] = xywh2xyxy(boxes[:, :4])
 
         # Object confidence
