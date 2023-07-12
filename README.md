@@ -92,7 +92,7 @@
  
 - The yolov8-pose model conversion route is : YOLOv8 PyTorch model -> ONNX -> TensorRT Engine
 
-  ***Notice !!!*** This repository don't support TensorRT API building !!!
+  ***Notice !!! :warning:*** This repository don't support TensorRT API building !!!
 
 ### 0. Get `yolov8s-pose.pt`
 
@@ -129,7 +129,7 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
 - Export Orin ONNX model by ultralytics
   You can leave this repo and use the original `ultralytics` repo for onnx export.
 - CLI tools(`yolo` command from "ultralytics.com")
-  - Recommended in your server to get faster speed
+  - Recommended in your server to get faster speed :zap:
   - ref : [ultralytics.com/modes/export](https://docs.ultralytics.com/modes/export/#arguments)
   - Usage(after `pip3 install ultralytics`):
 
@@ -144,12 +144,12 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
   After executing the above command, you will get an engine named `yolov8s-pose.onnx` too.
 
 - Move your Onnx Model to egdge device in specific path
-  - put model on your edge device
+  - put model on your edge device 
     ```shell
     sudo chmod u+rwx -R /opt/nvidia/deepstream/deepstream/samples/models # Add Write and execute permissions 
     sudo mkdir -p tao_pretrained_models/YOLOv8-TensorRT 
     sudo chmod u+rwx -R tao_pretrained_models/YOLOv8-TensorRT 
-    
+
     mv -v <path_of_your_yolov8-pose_model> /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT/yolov8s-pose-dy-sim-640.onnx
     ```
 
@@ -174,12 +174,10 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s-pose
   </figure>
 </div>
 
-
-
-
+ 
 
 ### 2. Onnx to TensorRT Engine with dynamic_batch
-  - Must be bound to a hardware device, please put it on your edge device
+  - :warning: Must be bound to a hardware device, please put it on your edge device(It's a long wait :hourglass:) 
   - Specify parameters such as `-minShapes --optShapes --maxShapes` to set dynamic batch processing.
   ```shell
   cd /opt/nvidia/deepstream/deepstream/samples/models/tao_pretrained_models/YOLOv8-TensorRT 
