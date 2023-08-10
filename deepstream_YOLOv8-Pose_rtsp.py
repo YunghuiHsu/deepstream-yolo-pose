@@ -496,11 +496,6 @@ def main(args):
         sys.stderr.write(" Unable to get osdpad sink pad of tracker \n")
     osdpad.add_probe(Gst.PadProbeType.BUFFER, osd_sink_pad_buffer_probe, 0)
 
-    pgie_src_pad = pgie.get_static_pad("src")
-    if not pgie_src_pad:
-        sys.stderr.write(" Unable to get src pad \n")
-    else:
-        pgie_src_pad.add_probe(Gst.PadProbeType.BUFFER, pose_src_pad_buffer_probe, 0)
     # perf callback function to print fps every 5 sec
     GLib.timeout_add(5000, perf_data.perf_print_callback)
 
