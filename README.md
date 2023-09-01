@@ -26,19 +26,19 @@
 - CUDA 11.4 (Jetson)
 - TensorRT 8+
 
-### DeepStream 6.2 on x86 platform
+### DeepStream 6.x on x86 platform
 
 * [Ubuntu 20.04](https://releases.ubuntu.com/20.04/)
 * [CUDA 11.8](https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=runfile_local)
 * [TensorRT 8.5 GA Update 1 (8.5.2.2)](https://developer.nvidia.com/nvidia-tensorrt-8x-download)
 * [NVIDIA Driver 525.85.12 (Data center / Tesla series) / 525.105.17 (TITAN, GeForce RTX / GTX series and RTX / Quadro series)](https://www.nvidia.com.br/Download/index.aspx)
-* [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-getting-started)
+* [NVIDIA DeepStream SDK 6.x](https://developer.nvidia.com/deepstream-getting-started)
 * [GStreamer 1.16.3](https://gstreamer.freedesktop.org/)
 * [DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
   
-### DeepStream 6.2 on Jetson platform
+### DeepStream 6.x on Jetson platform
 - [JetPack 5.1.1 / 5.1](https://developer.nvidia.com/embedded/jetpack)
-- [NVIDIA DeepStream SDK 6.2](https://developer.nvidia.com/deepstream-sdk)
+- [NVIDIA DeepStream SDK](https://developer.nvidia.com/deepstream-sdk)
   - Download and install from https://developer.nvidia.com/deepstream-download
 - [DeepStream-Yolo](https://github.com/marcoslucianops/DeepStream-Yolo)
 
